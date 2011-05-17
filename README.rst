@@ -20,5 +20,4 @@ Django-Mature-Optimization:
 * Know which URLs map to which views
 * Takes in to account performance and popularity
 * Helps you spot performance trends and regressions
-* Alerts you based on real users who encounter real performance problems
 
