@@ -2,7 +2,7 @@ import datetime
 import os.path
 from unittest2 import TestCase
 
-from mature_optimization.parse import parse_line, parse_file
+from mature_optimization.parse import NginxRequestTimesParser
 
 FIXTURE_FP = os.path.join(
     os.path.dirname(__file__),
@@ -26,7 +26,7 @@ class NginxLineParsingTestCase(TestCase):
             "US=403,"
             "SC=403\n")
 
-        data = parse_line(data_string)
+        data = NginxRequestTimesParser.parse_line(data_string)
 
         self.assertEqual(
             data['time'],
@@ -49,7 +49,7 @@ class NginxLineParsingTestCase(TestCase):
             "US=403,"
             "SC=403")
 
-        data = parse_line(data_string)
+        data = NginxRequestTimesParser.parse_line(data_string)
 
         self.assertEqual(
             data['time'],
@@ -74,7 +74,7 @@ class NginxLineParsingTestCase(TestCase):
             "US=403,"
             "SC=403\n")
 
-        data = parse_line(data_string)
+        data = NginxRequestTimesParser.parse_line(data_string)
 
         self.assertEqual(
             data['time'],
@@ -99,7 +99,7 @@ class NginxLineParsingTestCase(TestCase):
             "US=403,"
             "SC=403\n")
 
-        data = parse_line(data_string)
+        data = NginxRequestTimesParser.parse_line(data_string)
 
         self.assertEqual(
             data['time'],
@@ -113,12 +113,15 @@ class NginxLineParsingTestCase(TestCase):
 class NginxFileParsingTestCase(TestCase):
 
     def test_basic_parse(self):
-        parsed_data = parse_file(FIXTURE_FP)
-
-        self.assertEqual(len(parsed_data), 14)
+        parsed_data = NginxRequestTimesParser.parse_file(FIXTURE_FP)
 
         # Ensure we have believable status codes
+        count = 0
         for data in parsed_data:
+            count += 1
             self.assertTrue(
                 data['status'] in ['200', '403', '499'],
                 "Status '%s' not in 200, 403 or 499" % data['status'])
+
+        self.assertEqual(count, 14)
+

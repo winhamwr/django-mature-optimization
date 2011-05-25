@@ -13,7 +13,8 @@ class BaseParser(object):
     @classmethod
     def parse_line(cls, line):
         """
-        Parse one line of the log file.
+        Parse one line of the log file and output a dictionary of the parsed
+        values.
         """
         regex = re.compile(cls.pattern)
         m = regex.search(line)
@@ -43,6 +44,16 @@ class BaseParser(object):
         Implement this in the subclass. Accept/return parsed data structure.
         """
         return data
+
+    @classmethod
+    def parse_file(cls, fp):
+        with open(fp, 'r') as logfile:
+            for line in logfile:
+                data = cls.parse_line(line)
+                if len(data) == 0:
+                    # We hit the end of the file
+                    continue
+                yield data
 
 class NginxRequestTimesParser(BaseParser):
     """
@@ -100,21 +111,3 @@ class NginxRequestTimesParser(BaseParser):
 
         return data
 
-
-def parse_line(line):
-    """
-    Parse one line and output a dictionary of the parsed values.
-    """
-    return NginxRequestTimesParser.parse_line(line)
-
-def parse_file(fp):
-    parsed_data = []
-    with open(fp, 'r') as logfile:
-        for line in logfile:
-            data = parse_line(line)
-            if len(data) == 0:
-                # We hit the end of the file
-                continue
-            parsed_data.append(data)
-
-    return parsed_data
