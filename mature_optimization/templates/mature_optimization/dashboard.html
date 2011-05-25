@@ -1,4 +1,20 @@
 {% extends "base.html" %}
 
 {% block content %}
+<table>
+    <tr>
+        <th>Path</th>
+        <th>Method</th>
+        <th>Occurences</th>
+        <th>Total Time</th>
+    </tr>
+{% for slow_page in slow_pages %}
+    <tr>
+        <td>{{ slow_page.path }}</td>
+        <td>{{ slow_page.http_method }}</td>
+        <td>{{ slow_page.occurrences }}</td>
+        <td>{{ slow_page.total_time }}</td>
+    </tr>
+{% endfor %}
+</table>
 {% endblock %}

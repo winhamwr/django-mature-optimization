@@ -1,9 +1,20 @@
 
+from django.conf import settings
 from django.contrib.auth.decorators import user_passes_test
 from django.shortcuts import render_to_response
+from django.template import RequestContext
+
+from mature_optimization.parse import NginxRequestTimesParser
+from mature_optimization.analyze import SlowPages
 
 @user_passes_test(lambda u: u.is_superuser)
-def menu(request):
-    context = dict()
+def dashboard(request):
+
+    parsed_data = NginxRequestTimesParser.parse_file(
+        settings.MO_REQUEST_TIMES_PATH)
+    slow_pages = SlowPages(parsed_data, 7.0)
+    slow_pages.run()
+
+    context = dict(slow_pages=sorted(slow_pages.pages, key=lambda x: x.total_time))
     return render_to_response('mature_optimization/dashboard.html',
                               context, context_instance=RequestContext(request))

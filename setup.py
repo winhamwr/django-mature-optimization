@@ -11,7 +11,7 @@ import mature_optimization
 long_description = codecs.open("README.rst", "r", "utf-8").read()
 
 setup(
-    name='django-mature-optmization',
+    name='mature-optimization',
     version=mature_optimization.__version__,
     description=mature_optimization.__doc__,
     author=mature_optimization.__author__,
