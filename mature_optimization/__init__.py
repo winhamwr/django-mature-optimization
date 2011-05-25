@@ -1,6 +1,6 @@
 """Measure your production performance and prioritize based on pain"""
 
-VERSION = (0, 0, 1, 'dev')
+VERSION = (0, 0, 1, '')
 
 __version__ = ".".join(map(str, VERSION[:-1]))
 __release__ = ".".join(map(str, VERSION))
