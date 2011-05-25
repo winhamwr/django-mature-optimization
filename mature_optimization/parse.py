@@ -62,19 +62,19 @@ class NginxRequestTimesParser(BaseParser):
     """
     date_format = "%d/%b/%Y:%H:%M:%S"
     date_ignore_pattern = r' -\d{4}'
-    pattern = ''.join([
-            r'^IP=(?P<ip>[^,]+),',
-            r'TL=(?P<time>[^,]+),',
-            r'DN=(?P<host>[^,]+),',
-            r'RQ=(?P<request>[^,]+),',
-            r'HR=(?P<http_referer>[^,]+),',
+    pattern = ','.join([
+            r'^IP=(?P<ip>.*[^,])',
+            r'TL=(?P<time>.*[^,])',
+            r'DN=(?P<host>.*[^,])',
+            r'RQ=(?P<request>.*[^,])',
+            r'HR=(?P<http_referer>.*[^,])',
             # user agents have commas sometimes
-            r'HU=(?P<http_user_agent>[^(,CS=)]+),',
-            r'CS=(?P<cookie_sessionid>[^,]+),',
-            r'UT=(?P<upstream_response_time>[^,]+),',
-            r'RT=(?P<request_time>[^,]+),',
-            r'US=(?P<upstream_status>[^,]+),',
-            r'SC=(?P<status>[^,]+)$',
+            r'HU=(?P<http_user_agent>.*[^,])',
+            r'CS=(?P<cookie_sessionid>.*[^,])',
+            r'UT=(?P<upstream_response_time>.*[^,])',
+            r'RT=(?P<request_time>.*[^,])',
+            r'US=(?P<upstream_status>.*[^,])',
+            r'SC=(?P<status>.*?)\s*$',
             ])
 
     @classmethod
@@ -114,8 +114,7 @@ def parse_file(fp):
             data = parse_line(line)
             if len(data) == 0:
                 # We hit the end of the file
-                print data
-                print line
+                continue
             parsed_data.append(data)
 
     return parsed_data
