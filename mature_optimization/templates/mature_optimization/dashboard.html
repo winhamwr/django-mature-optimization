@@ -7,13 +7,15 @@
         <th>Method</th>
         <th>Occurences</th>
         <th>Total Time</th>
+        <th>Avg Time</th>
     </tr>
 {% for slow_page in slow_pages %}
     <tr>
         <td>{{ slow_page.path }}</td>
         <td>{{ slow_page.http_method }}</td>
-        <td>{{ slow_page.occurrences }}</td>
-        <td>{{ slow_page.total_time }}</td>
+        <td style="text-align: right">{{ slow_page.occurrences }}</td>
+        <td style="text-align: right">{{ slow_page.total_time|floatformat:1 }}s</td>
+        <td style="text-align: right">{{ slow_page.avg_time|floatformat:1 }}s</td>
     </tr>
 {% endfor %}
 </table>

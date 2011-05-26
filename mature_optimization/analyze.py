@@ -3,7 +3,7 @@ from collections import namedtuple
 
 PageRequest = namedtuple(
     'PageRequest',
-    ['path', 'http_method', 'occurrences', 'total_time'])
+    ['path', 'http_method', 'occurrences', 'total_time', 'avg_time'])
 
 class SlowPages(object):
     def __init__(self, parsed_data, slow_threshold):
@@ -27,16 +27,20 @@ class SlowPages(object):
                     http_method=request['http_method'],
                     occurrences=0,
                     total_time=0.0,
+                    avg_time=0.0,
                 )
             else:
                 pr = pages[req_key]
 
-            # Update the tuple
+            # Update the tuple, with an updated average
+            new_occurrences = pr.occurrences + 1
+            new_total_time = pr.total_time + request['upstream_response_time']
             pages[req_key] = PageRequest(
                 path=pr.path,
                 http_method=pr.http_method,
-                occurrences=pr.occurrences + 1,
-                total_time=pr.total_time + request['upstream_response_time'],
+                occurrences=new_occurrences,
+                total_time=new_total_time,
+                avg_time=new_total_time / new_occurrences,
             )
 
         self.pages = [page for page in pages.itervalues()]
