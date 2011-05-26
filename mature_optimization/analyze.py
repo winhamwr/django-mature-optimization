@@ -43,4 +43,4 @@ class SlowPages(object):
                 avg_time=new_total_time / new_occurrences,
             )
 
-        self.pages = [page for page in pages.itervalues()]
+        self.pages = list(pages.values())
