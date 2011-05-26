@@ -27,7 +27,8 @@ What Django-Mature-Optimization Is *Not*
 ----------------------------------------
 
 This project has *no* aspirations to do the following:
-* Real-time log following/tailing. Projects like
+
+* Real-time log monitoring or tailing. Projects like
   `Live Log Analyzer`_ are much more suited to that.
 * Notifications or alerting. A `Nagios`_ or `Munin`_ plugin makes more sense.
 * Long-Term trending. `Munin`_, `Cacti`_ etc. are all well-suited there.
@@ -82,7 +83,7 @@ Currently, django-mature-optimization expects the following log format::
         ',HR=$http_referer,HU=$http_user_agent,CS=$cookie_sessionid'
         ',UT=$upstream_response_time,RT=$request_time,US=$upstream_status,SC=$status';
 
-The inside your ``server`` or ``location`` directive, use that log format as an
+Inside your ``server`` or ``location`` directive, use that log format as an
 access log. For example::
 
     upstream my_upstream {
@@ -99,12 +100,11 @@ access log. For example::
         access_log /var/log/nginx/request_times.log request_times;
     }
 
-Note: You'll need to make sure that the user running your application (eg. the
-  mod_wsgi user) has read access to the log file. On Debian-based linux, this
-  can be accomplished by adding that user to the ``adm`` group::
+You'll need to ensure that the user running your application (eg. the mod_wsgi
+user) has read access to the log file. On Debian-based linux, this can be
+accomplished by adding that user to the ``adm`` group::
 
     $ sudo adduser <my_wsgi_user> adm
-
 
 
 .. _`Live Log Analyzer`: https://github.com/saltycrane/live-log-analyzer
