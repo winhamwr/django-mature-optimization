@@ -12,9 +12,12 @@ def dashboard(request):
 
     parsed_data = NginxRequestTimesParser.parse_file(
         settings.MO_REQUEST_TIMES_PATH)
-    slow_pages = SlowPages(parsed_data, 7.0)
+    slow_threshold = getattr(settings, 'MO_SLOW_PAGE_SECONDS', 7.0)
+    slow_pages = SlowPages(parsed_data, slow_threshold)
     slow_pages.run()
 
-    context = dict(slow_pages=sorted(slow_pages.pages, key=lambda x: x.total_time))
+    context = dict(
+        slow_pages=sorted(
+            slow_pages.pages, key=lambda x: x.total_time, reverse=True))
     return render_to_response('mature_optimization/dashboard.html',
                               context, context_instance=RequestContext(request))
