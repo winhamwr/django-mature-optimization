@@ -11,6 +11,9 @@
 Overview
 ========
 
+THIS PROJECT IS NO LONGER MAINTAINED.
+New Relic does everything this project did and much, much more, so I'm using that now.
+
 Django-Mature-Optimization is a tool to guide your towards optimizing the areas
 of your application where you can get the most bang for your buck. It helps you
 analyze your real production django usage and find the pages that are the most
